@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepikaPanneerSelvam - Data Engineer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles from Tailwind's defaults, adjusted for the new palette */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdf5e5; /* Light background */
+            color: #2a3d63; /* Dark font color */
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Custom utility classes based on Tailwind's logic */
+        .min-h-screen { min-height: 100vh; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+        .pt-32 { padding-top: 8rem; }
+        .max-w-2xl { max-width: 42rem; }
+        .max-w-3xl { max-width: 48rem; }
+        .max-w-4xl { max-width: 56rem; }
+        .max-w-6xl { max-width: 72rem; }
+        .max-w-7xl { max-width: 80rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-full { border-radius: 9999px; }
+        .p-8 { padding: 2rem; }
+        .border { border-width: 1px; }
+        .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .space-x-2 > *:not([hidden]) ~ *:not([hidden]) { margin-left: 0.5rem; }
+        .space-x-3 > *:not([hidden]) ~ *:not([hidden]) { margin-left: 0.75rem; }
+        .space-x-4 > *:not([hidden]) ~ *:not([hidden]) { margin-left: 1rem; }
+        .space-x-6 > *:not([hidden]) ~ *:not([hidden]) { margin-left: 1.5rem; }
+        .space-x-8 > *:not([hidden]) ~ *:not([hidden]) { margin-left: 2rem; }
+        .space-y-3 > *:not([hidden]) ~ *:not([hidden]) { margin-top: 0.75rem; }
+        .space-y-6 > *:not([hidden]) ~ *:not([hidden]) { margin-top: 1.5rem; }
+        .space-y-10 > *:not([hidden]) ~ *:not([hidden]) { margin-top: 2.5rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-16 { margin-top: 4rem; }
+        .pt-4 { padding-top: 1rem; }
+        .ml-4 { margin-left: 1rem; }
+        .ml-8 { margin-left: 2rem; }
+        .w-3 { width: 0.75rem; }
+        .h-3 { height: 0.75rem; }
+        .w-1 { width: 0.25rem; }
+        .h-1 { height: 0.25rem; }
+        .w-12 { width: 3rem; }
+        .h-12 { height: 3rem; }
+        .w-80 { width: 20rem; }
+        .h-96 { height: 24rem; }
+        .w-24 { width: 6rem; }
+        .h-1 { height: 0.25rem; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .fixed { position: fixed; }
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        .top-0 { top: 0; }
+        .left-0 { left: 0; }
+        .right-0 { right: 0; }
+        .z-50 { z-index: 50; }
+        .pointer-events-none { pointer-events: none; }
+        .overflow-hidden { overflow: hidden; }
+        .text-sm { font-size: 0.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-6xl { font-size: 3.75rem; }
+        .text-7xl { font-size: 4.5rem; }
+        .font-sans { font-family: sans-serif; }
+        .font-mono { font-family: monospace; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .leading-relaxed { line-height: 1.625; }
+        .leading-tight { line-height: 1.25; }
+        .whitespace-pre-wrap { white-space: pre-wrap; }
+        .transition-all { transition-property: all; transition-duration: 300ms; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+        .transition-colors { transition-property: background-color, border-color, color, fill, stroke; transition-duration: 300ms; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+        .duration-300 { transition-duration: 300ms; }
+        .duration-1000 { transition-duration: 1000ms; }
+        .ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+        .transform { transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+        .hover\:scale-105:hover { --tw-scale-x: 1.05; --tw-scale-y: 1.05; }
+        .opacity-0 { opacity: 0; }
+        .opacity-100 { opacity: 1; }
+        .opacity-60 { opacity: 0.6; }
+        .hover\:opacity-80:hover { opacity: 0.8; }
+        .translate-y-0 { --tw-translate-y: 0; }
+        .translate-y-10 { --tw-translate-y: 2.5rem; }
+        .bg-clip-text { -webkit-background-clip: text; background-clip: text; }
+        .text-transparent { color: transparent; }
+        .list-unstyled { list-style: none; padding: 0; margin: 0; }
+        .list-disc { list-style-type: disc; }
+        .list-inside { list-style-position: inside; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .hover\:shadow-lg:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+
+        /* Custom Colors */
+        .bg-[#fdf5e5] { background-color: #fdf5e5; }
+        .text-[#2a3d63] { color: #2a3d63; }
+        .bg-[#2a3d63] { background-color: #2a3d63; }
+        .bg-[#2a3d63]/5 { background-color: rgba(42, 61, 99, 0.05); }
+        .bg-[#2a3d63]/10 { background-color: rgba(42, 61, 99, 0.1); }
+        .text-[#2a3d63]/80 { color: rgba(42, 61, 99, 0.8); }
+        .text-[#2a3d63]/90 { color: rgba(42, 61, 99, 0.9); }
+        .border-[#2a3d63]/10 { border-color: rgba(42, 61, 99, 0.1); }
+        .hover\:bg-[#2a3d63]/10:hover { background-color: rgba(42, 61, 99, 0.1); }
+        .hover\:bg-[#2a3d63]/80:hover { background-color: rgba(42, 61, 99, 0.8); }
+        .text-[#2a3d63]/50 { color: rgba(42, 61, 99, 0.5); }
+
+
+        /* Gradients */
+        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+        .from-gray-900 { --tw-gradient-from: #1a202c; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(26, 32, 44, 0)); }
+        .via-gray-800 { --tw-gradient-via: #2d3748; }
+        .to-gray-700 { --tw-gradient-to: #4a5568; }
+        .bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)); }
+        .from-teal-300 { --tw-gradient-from: #5eead4; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(94, 234, 212, 0)); }
+        .to-amber-400 { --tw-gradient-to: #fbbf24; }
+        .from-blue-800\/30 { --tw-gradient-from: rgba(30, 64, 175, 0.3); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30, 64, 175, 0)); }
+        .to-green-600\/30 { --tw-gradient-to: rgba(5, 150, 105, 0.3); }
+        .from-white\/10 { --tw-gradient-from: rgba(255, 255, 255, 0.1); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 255, 255, 0)); }
+        .from-gray-900\/50 { --tw-gradient-from: rgba(26, 32, 44, 0.5); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(26, 32, 44, 0)); }
+        .to-transparent { --tw-gradient-to: transparent; }
+        .bg-gradient-to-t { background-image: linear-gradient(to top, var(--tw-gradient-stops)); }
+        .from-teal-400 { --tw-gradient-from: #2dd4bf; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(45, 212, 191, 0)); }
+        .to-emerald-500 { --tw-gradient-to: #10b981; }
+        .from-emerald-400 { --tw-gradient-from: #34d399; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(52, 211, 153, 0)); }
+        .to-lime-500 { --tw-gradient-to: #84cc16; }
+        .from-lime-400 { --tw-gradient-from: #a3e635; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(163, 230, 53, 0)); }
+        .to-teal-500 { --tw-gradient-to: #14b8a6; }
+
+        /* Adjusted Colors for light theme */
+        .bg-teal-500 { background-color: #0d9488; } /* Darker teal for contrast */
+        .hover\:bg-teal-400:hover { background-color: #2dd4bf; }
+        .text-gray-900 { color: #1a202c; }
+        .border-gray-400 { border-color: #a0aec0; }
+        .text-white { color: #ffffff; }
+        .hover\:bg-gray-800:hover { background-color: #2d3748; }
+        .hover\:border-gray-500:hover { border-color: #718096; }
+        .text-gray-400 { color: #a0aec0; }
+        .bg-emerald-600 { background-color: #059669; } /* Darker emerald */
+        .hover\:bg-emerald-500:hover { background-color: #10b981; }
+        .border-teal-500\/20 { border-color: rgba(20, 184, 166, 0.2); }
+        .text-gray-600 { color: #718096; }
+        .text-gray-700 { color: #4a5568; }
+        .bg-gray-50 { background-color: #f9fafb; } /* Light gray for section backgrounds */
+        .bg-white { background-color: #ffffff; }
+        .border-gray-200 { border-color: #edf2f7; }
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+
+        /* Project Colors - Light Theme Adjustment */
+        .project-teal-border { border-color: rgba(45, 212, 191, 0.5); }
+        .project-teal-hover-border:hover { border-color: rgba(13, 148, 136, 0.7); }
+        .project-teal-bg { background-color: #e0f2f7; } /* Light teal */
+        .project-teal-hover-bg:hover { background-color: #c2e8f0; }
+        .project-teal-text { color: #0d9488; } /* Darker teal text */
+        .project-teal-shadow:hover { box-shadow: 0 4px 6px -1px rgba(45, 212, 191, 0.2), 0 2px 4px -1px rgba(45, 212, 191, 0.1); }
+
+        .project-emerald-border { border-color: rgba(52, 211, 153, 0.5); }
+        .project-emerald-hover-border:hover { border-color: rgba(5, 150, 105, 0.7); }
+        .project-emerald-bg { background-color: #d1fae5; } /* Light emerald */
+        .project-emerald-hover-bg:hover { background-color: #bbf7d0; }
+        .project-emerald-text { color: #059669; } /* Darker emerald text */
+        .project-emerald-shadow:hover { box-shadow: 0 4px 6px -1px rgba(52, 211, 153, 0.2), 0 2px 4px -1px rgba(52, 211, 153, 0.1); }
+
+        .project-lime-border { border-color: rgba(163, 230, 53, 0.5); }
+        .project-lime-hover-border:hover { border-color: rgba(101, 163, 13, 0.7); }
+        .project-lime-bg { background-color: #ecfccb; } /* Light lime */
+        .project-lime-hover-bg:hover { background-color: #d9f99d; }
+        .project-lime-text { color: #65a30d; } /* Darker lime text */
+        .project-lime-shadow:hover { box-shadow: 0 4px 6px -1px rgba(163, 230, 53, 0.2), 0 2px 4px -1px rgba(163, 230, 53, 0.1); }
+
+        /* Skill Colors - Light Theme Adjustment */
+        .skill-teal-border { border-color: rgba(45, 212, 191, 0.5); }
+        .skill-teal-text { color: #0d9488; }
+        .skill-teal-dot { background-color: #0d9488; }
+
+        .skill-emerald-border { border-color: rgba(52, 211, 153, 0.5); }
+        .skill-emerald-text { color: #059669; }
+        .skill-emerald-dot { background-color: #059669; }
+
+        .skill-lime-border { border-color: rgba(163, 230, 53, 0.5); }
+        .skill-lime-text { color: #65a30d; }
+        .skill-lime-dot { background-color: #65a30d; }
+
+        /* Specific element styles */
+        .backdrop-blur-md { backdrop-filter: blur(12px); }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+        .animate-bounce { animation: bounce 1s infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+            50% { transform: translateY(0); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+        }
+        .cursor-pointer { cursor: pointer; }
+
+        /* Icons */
+        .icon-size-24 { font-size: 1.5rem; } /* 24px */
+        .icon-size-16 { font-size: 1rem; } /* 16px */
+        .icon-size-20 { font-size: 1.25rem; } /* 20px */
+        .icon-size-32 { font-size: 2rem; } /* 32px */
+        .icon-size-40 { font-size: 2.5rem; } /* 40px */
+        .icon-size-120 { font-size: 7.5rem; } /* 120px */
+
+        /* Responsive Grid */
+        .grid { display: grid; }
+        .gap-8 { gap: 2rem; }
+        .gap-12 { gap: 3rem; }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+        @media (min-width: 768px) { /* md breakpoint */
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) { /* lg breakpoint */
+            .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .lg\:mx-0 { margin-left: 0; margin-right: 0; }
+            .lg\:order-1 { order: 1; }
+            .lg\:order-2 { order: 2; }
+            .lg\:text-7xl { font-size: 4.5rem; }
+        }
+
+        /* Contact Section Specifics */
+        .contact-divider {
+            width: 6rem; /* w-24 */
+            height: 0.25rem; /* h-1 */
+            background-color: #0d9488; /* bg-teal-600 */
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem; /* mb-12 */
+            border-radius: 9999px; /* rounded-full */
+        }
+        .contact-info-card {
+            background-color: #ffffff; /* bg-white */
+            padding: 2rem; /* p-8 */
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid #edf2f7; /* border-gray-200 */
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+            text-align: left;
+        }
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+        }
+        .contact-info-item i {
+            font-size: 1.5rem; /* icon-size-24 */
+            color: #0d9488; /* text-teal-600 */
+            margin-right: 1rem; /* mr-4 */
+        }
+        .contact-info-item .label {
+            color: #718096; /* text-gray-600 */
+            font-size: 0.875rem; /* text-sm */
+            text-transform: uppercase;
+        }
+        .contact-info-item .value {
+            color: #2a3d63; /* text-[#2a3d63] */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 500; /* font-medium */
+        }
+        .contact-info-item .value:hover {
+            color: #0d9488; /* hover:text-teal-600 */
+        }
+        .social-links-contact {
+            display: flex;
+            justify-content: center; /* Centered */
+            margin-bottom: 2rem; /* mb-8 */
+            gap: 1.5rem; /* space-x-6 */
+        }
+        .social-links-contact .social-icon {
+            font-size: 2rem; /* icon-size-32 */
+            color: #0d9488; /* text-teal-600 */
+            transition: color 0.3s ease;
+        }
+        .social-links-contact .social-icon:hover {
+            color: #2dd4bf; /* hover:text-teal-500 */
+        }
+        .social-handle {
+            color: #2a3d63; /* text-[#2a3d63] */
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 500; /* font-medium */
+        }
+
+        /* Falling Text Animation */
+        .falling-text {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .falling-text.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Active Navigation Link Highlight */
+        .active-nav-link {
+            background-color: rgba(42, 61, 99, 0.1); /* bg-[#2a3d63]/10 */
+            font-weight: 600; /* font-semibold */
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-[#fdf5e5] text-[#2a3d63] overflow-x-hidden font-sans relative">
+        <div class="fixed inset-0 pointer-events-none" id="particle-container">
+            </div>
+
+        <nav class="fixed top-0 left-0 right-0 z-50 bg-[#fdf5e5]/80 backdrop-blur-md border-b border-[#2a3d63]/10">
+            <div class="max-w-6xl mx-auto px-6 py-6">
+                <div class="flex justify-center">
+                    <div class="flex space-x-4 bg-[#2a3d63]/5 backdrop-blur-md rounded-full px-8 py-3 border border-[#2a3d63]/10" id="navbar-links">
+                        <button id="nav-terminal" onclick="scrollToSection('terminal')" class="px-4 py-2 rounded-full transition-all duration-300 hover:bg-[#2a3d63]/10 text-sm font-medium">Terminal</button>
+                        <button id="nav-home" onclick="scrollToSection('home')" class="px-4 py-2 rounded-full transition-all duration-300 hover:bg-[#2a3d63]/10 text-sm font-medium">Home</button>
+                        <button id="nav-experience" onclick="scrollToSection('experience')" class="px-4 py-2 rounded-full transition-all duration-300 hover:bg-[#2a3d63]/10 text-sm font-medium">Experience</button>
+                        <button id="nav-projects" onclick="scrollToSection('projects')" class="px-4 py-2 rounded-full transition-all duration-300 hover:bg-[#2a3d63]/10 text-sm font-medium">Projects</button>
+                        <button id="nav-skills" onclick="scrollToSection('skills')" class="px-4 py-2 rounded-full transition-all duration-300 hover:bg-[#2a3d63]/10 text-sm font-medium">Skills</button>
+                        <button id="nav-certificates" onclick="scrollToSection('certificates')" class="px-4 py-2 rounded-full transition-all duration-300 hover:bg-[#2a3d63]/10 text-sm font-medium">Certificates</button>
+                        <button id="nav-contact" onclick="scrollToSection('contact')" class="px-4 py-2 rounded-full transition-all duration-300 hover:bg-[#2a3d63]/10 text-sm font-medium">Contact</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <section id="terminal" class="min-h-screen flex items-center justify-center px-6 pt-32">
+            <div class="max-w-2xl mx-auto text-center">
+                <div class="bg-black/40 backdrop-blur-md rounded-2xl p-8 border border-gray-600 shadow-2xl">
+                    <div class="flex items-center space-x-2 mb-6">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span class="text-gray-300 text-sm ml-4">terminal</span>
+                    </div>
+                    <div class="font-mono text-lime-400 text-xl leading-relaxed whitespace-pre-wrap text-left" id="terminal-text">
+                        <span class="animate-pulse">|</span>
+                    </div>
+                </div>
+
+                <div class="mt-16 animate-bounce hidden" id="scroll-indicator">
+                    <i class="fas fa-chevron-down text-gray-300 mx-auto cursor-pointer icon-size-40 hover:text-lime-400 transition-colors" onclick="scrollToSection('home')"></i>
+                    <p class="text-sm text-gray-300 mt-2">Scroll to continue</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="home" class="min-h-screen flex items-center justify-center px-6 py-20">
+            <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+                <div class="order-1 lg:order-1 flex justify-center"> <div class="falling-text" data-section="home" data-delay="0">
+                        <div class="relative w-[28rem] h-[36rem] mx-auto lg:mx-0"> <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-3xl backdrop-blur-sm"></div>
+                            <div class="relative w-full h-full rounded-3xl overflow-hidden bg-gradient-to-br from-blue-600/30 to-green-400/30 flex items-center justify-center">
+                                <img src="deepika.png" alt="DeepikaPanneerSelvam Profile Photo" class="object-cover w-full h-full rounded-3xl">
+                                <div class="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-2 lg:order-2 flex flex-col justify-center lg:items-start text-center lg:text-left"> <div class="falling-text" data-section="home" data-delay="200">
+                        <div class="flex items-center justify-center lg:justify-start space-x-3 mb-4"> <span class="text-4xl">👋</span>
+                            <h2 class="text-2xl text-[#2a3d63]/90 font-medium">Hey, I'm DeepikaPanneerSelvam</h2>
+                        </div>
+                        <h1 class="text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                            <span class="text-[#2a3d63]">Data </span>
+                            <span class="bg-gradient-to-r from-teal-500 to-amber-600 bg-clip-text text-transparent">
+                                Engineer
+                            </span>
+                        </h1>
+                    </div>
+                    <div class="falling-text" data-section="home" data-delay="400">
+                        <p class="text-lg text-gray-700 mb-8 max-w-lg leading-relaxed mx-auto lg:mx-0"> Experienced Data Engineer skilled in building scalable data pipelines, automating workflows, and modernizing legacy systems. Proven success at Dun & Bradstreet and Urban Institute using AWS, PySpark, and Snowflake to deliver impactful, data-driven solutions.
+                        </p>
+                    </div>
+                    <div class="falling-text" data-section="home" data-delay="600">
+                        <div class="flex space-x-4 mb-12 justify-center lg:justify-start"> <button onclick="scrollToSection('contact')" class="bg-[#2a3d63] text-white px-8 py-4 rounded-full font-semibold hover:bg-[#2a3d63]/80 transition-all duration-300 transform hover:scale-105">
+                                Get In Touch
+                            </button>
+                            <button onclick="scrollToSection('projects')" class="border-2 border-[#2a3d63] text-[#2a3d63] px-8 py-4 rounded-full font-semibold hover:bg-[#2a3d63]/10 transition-all duration-300">
+                                View Projects
+                            </button>
+                            <a href="Deepika_AP_RESUME.pdf" download="Deepika_PanneerSelvam_Resume.pdf" class="bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-500 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2">
+                                <i class="fas fa-file-alt icon-size-20"></i>
+                                <span>Download Resume</span>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="min-h-screen flex items-center px-6 py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="falling-text" data-section="experience" data-delay="0">
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-lime-400 to-teal-500 bg-clip-text text-transparent">
+                        Work Experience
+                    </h2>
+                </div>
+
+                <div class="space-y-10">
+                    <div class="falling-text" data-section="experience" data-delay="100">
+                        <div class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-briefcase text-teal-600 icon-size-24 mr-4"></i>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-[#2a3d63]">Data Engineering Intern</h3>
+                                    <p class="text-lg text-gray-700">Urban Institute -- Washington DC, USA | June 2024 - November 2024</p>
+                                </div>
+                            </div>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 ml-8">
+                                <li>Upgraded a 7-8-year-old system by automating version updates for RStudio, R, and EMR using API calls, seamlessly integrating them into the existing setup.</li>
+                                <li>Designed and implemented an AWS Step Function setup to orchestrate workflows such as EMR cluster creation and EC2 provisioning, enhancing automation, scalability, and reliability.</li>
+                                <li>Built a CI/CD pipeline using AWS SAM and GitHub Actions, streamlining system updates and deployments for faster and more efficient development.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="falling-text" data-section="experience" data-delay="200">
+                        <div class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-briefcase text-teal-600 icon-size-24 mr-4"></i>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-[#2a3d63]">Big Data Engineer</h3>
+                                    <p class="text-lg text-gray-700">Dun and Bradstreet-- Hyderabad, India| August 2021 - July 2023</p>
+                                </div>
+                            </div>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 ml-8">
+                                <li>Enhanced 80% of datasets by integrating key features, significantly improving infrastructure performance.</li>
+                                <li>Deployed three new data sources into production using AWS, PySpark, and Snowflake, ensuring seamless data flow and system reliability.</li>
+                                <li>Created scalable, robust databases leveraging Spark and SQL to streamline ETL operations.</li>
+                                <li>Addressed and resolved high-priority bugs, resulting in a 30% reduction in production failures and improved overall system stability.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="falling-text" data-section="experience" data-delay="300">
+                        <div class="bg-white p-8 rounded-lg border border-gray-200 shadow-sm">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-briefcase text-teal-600 icon-size-24 mr-4"></i>
+                                <div>
+                                    <h3 class="text-2xl font-bold text-[#2a3d63]">Data Engineering Intern</h3>
+                                    <p class="text-lg text-gray-700">Dun and Bradstreet-- Hyderabad, India | May 2021 - July 2021</p>
+                                </div>
+                            </div>
+                            <ul class="list-disc list-inside text-gray-700 space-y-2 ml-8">
+                                <li>Documented workflows for various modules to ensure clarity and consistency, while addressing high-priority tasks to streamline processes and facilitate smooth deployments to higher environments.</li>
+                                <li>Actively monitored critical production jobs, promptly identifying and resolving bugs or failures to maintain seamless operations and minimize downtime.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="min-h-screen flex items-center px-6 py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <div class="falling-text" data-section="projects" data-delay="0">
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-12 text-center bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
+                        Featured Projects
+                    </h2>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="falling-text" data-section="projects" data-delay="200">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm project-teal-border project-teal-shadow transition-all duration-300 hover:shadow-lg group">
+                            <div class="w-12 h-12 project-teal-bg rounded-lg flex items-center justify-center mb-4 transition-colors">
+                                <i class="fas fa-code project-teal-text icon-size-24"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 project-teal-text">Multi Label Predictions on Academic Articles</h3>
+                            <p class="text-gray-700 mb-4">Designed and implemented a predictive model for multilabel classification of academic articles, streamlining content categorization across five distinct labels and significantly enhancing retrieval system efficiency. By leveraging advanced Machine Learning and Natural Language Processing (NLP) techniques, utilized Python, Pandas, NumPy, and BERT to achieve accurate, scalable classification. This approach improved the overall organization and accessibility of academic articles, enabling faster and more efficient content retrieval.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Python</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Pandas</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Apache Kafka (on AWS EC2)</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">AWS S3</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">AWS Glue (Crawler + Data Catalog)</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">AWS Athena</span>
+                            </div>
+                            <a href="https://github.com/DeepikaPanneer/Multi-Label-Predictions-on-Academic-Articles" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 project-teal-text hover:opacity-80 transition-colors">
+                                <span>View Project</span>
+                                <i class="fas fa-external-link-alt icon-size-16"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="falling-text" data-section="projects" data-delay="300">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm project-emerald-border project-emerald-shadow transition-all duration-300 hover:shadow-lg group">
+                            <div class="w-12 h-12 project-emerald-bg rounded-lg flex items-center justify-center mb-4 transition-colors">
+                                <i class="fas fa-code project-emerald-text icon-size-24"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 project-emerald-text">Predictions for the 2023 ICC Cricket World Cup</h3>
+                            <p class="text-gray-700 mb-4">The Predictions for the 2023 ICC Cricket World Cup project aimed to predict match outcomes using machine learning. By analyzing historical data from 10 teams, the model considered key performance metrics and contextual factors to make predictions. Advanced data visualization techniques were used to present insights effectively. The project utilized R for data analysis, Random Forest for predictive modeling, and ggplot2 and Tidyverse for visualizing and manipulating the data, providing accurate and insightful match outcome predictions.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Machine Learning</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">NLP</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Python</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Pandas</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">NumPy</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">BERT</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">scikit-learn</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Matplotlib</span>
+                            </div>
+                            <a href="https://github.com/DeepikaPanneer/Predictions-for-the-2023-ICC-Cricket-World-Cup" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 project-emerald-text hover:opacity-80 transition-colors">
+                                <span>View Project</span>
+                                <i class="fas fa-external-link-alt icon-size-16"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="falling-text" data-section="projects" data-delay="400">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm project-lime-border project-lime-shadow transition-all duration-300 hover:shadow-lg group">
+                            <div class="w-12 h-12 project-lime-bg rounded-lg flex items-center justify-center mb-4 transition-colors">
+                                <i class="fas fa-code project-lime-text icon-size-24"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 project-lime-text">Heart Attack Risk Prediction</h3>
+                            <p class="text-gray-700 mb-4">The Heart Attack Risk Prediction project is designed to predict the likelihood of a heart attack based on various health parameters. Using machine learning algorithms, the model analyzes factors like age, cholesterol levels, blood pressure, and more to assess the risk. The goal is to provide an early warning system, enabling individuals to take preventive measures. The project leverages Python, pandas, and scikit-learn for data analysis and model building, aiming for accuracy and reliability in predictions.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">R</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Random Forest</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">ggplot</span>
+                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm text-gray-700">Tidyverse</span>
+                            </div>
+                            <a href="#" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 project-lime-text hover:opacity-80 transition-colors">
+                                <span>View Project</span>
+                                <i class="fas fa-external-link-alt icon-size-16"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="min-h-screen flex items-center px-6 py-20 bg-[#fdf5e5]">
+            <div class="max-w-6xl mx-auto text-center">
+                <div class="falling-text" data-section="skills" data-delay="0">
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-12 bg-gradient-to-r from-emerald-400 to-lime-500 bg-clip-text text-transparent">
+                        My Skills
+                    </h2>
+                </div>
+        
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="falling-text" data-section="skills" data-delay="100">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm skill-emerald-border transition-all duration-300 hover:shadow-lg">
+                            <h3 class="text-xl font-bold mb-4 skill-emerald-text">Programming Languages</h3>
+                            <ul class="list-unstyled text-left space-y-2">
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-emerald-dot mr-3"></span>Python
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-emerald-dot mr-3"></span>PySpark
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-emerald-dot mr-3"></span>Pandas
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-emerald-dot mr-3"></span>NumPy
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-emerald-dot mr-3"></span>R
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-emerald-dot mr-3"></span>C
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+        
+                    <div class="falling-text" data-section="skills" data-delay="200">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm skill-lime-border transition-all duration-300 hover:shadow-lg">
+                            <h3 class="text-xl font-bold mb-4 skill-lime-text">Big Data & Databases</h3>
+                            <ul class="list-unstyled text-left space-y-2">
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Spark
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Hadoop
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Hive
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Snowflake
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>MySQL
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>SQL
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+        
+                    <div class="falling-text" data-section="skills" data-delay="300">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm skill-teal-border transition-all duration-300 hover:shadow-lg">
+                            <h3 class="text-xl font-bold mb-4 skill-teal-text">Cloud Services</h3>
+                            <ul class="list-unstyled text-left space-y-2">
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>AWS EMR
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>S3
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>Lambda
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>SAM
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>Redshifts
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>Glue
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+        
+                    <div class="falling-text" data-section="skills" data-delay="400">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm skill-lime-border transition-all duration-300 hover:shadow-lg">
+                            <h3 class="text-xl font-bold mb-4 skill-lime-text">Automation & CI/CD</h3>
+                            <ul class="list-unstyled text-left space-y-2">
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Airflow
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Jenkins
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Git
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>GitHub
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>GitHub Actions
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-lime-dot mr-3"></span>Jira
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+        
+                    <div class="falling-text" data-section="skills" data-delay="500"> <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm skill-teal-border transition-all duration-300 hover:shadow-lg">
+                            <h3 class="text-xl font-bold mb-4 skill-teal-text">Data Science & ML</h3>
+                            <ul class="list-unstyled text-left space-y-2">
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>Machine Learning
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>Natural Language Processing (NLP)
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>Data Analysis
+                                </li>
+                                <li class="flex items-center text-gray-700">
+                                    <span class="w-2 h-2 rounded-full skill-teal-dot mr-3"></span>Data Visualization
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        </section>
+
+        <section id="certificates" class="min-h-screen flex items-center px-6 py-20 bg-gray-50">
+            <div class="max-w-6xl mx-auto text-center">
+                <div class="falling-text" data-section="certificates" data-delay="0">
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-12 bg-gradient-to-r from-teal-400 to-amber-500 bg-clip-text text-transparent">
+                        Certificates
+                    </h2>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8 justify-center"> 
+                    <div class="falling-text" data-section="certificates" data-delay="100">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg">
+                            <i class="fas fa-certificate text-teal-600 icon-size-32 mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2 text-[#2a3d63]">AWS Certified Cloud Practitioner</h3>
+                            <p class="text-gray-700 mb-4">Issued by Amazon Web Services (AWS) - May 2024</p>
+                            <a href="https://www.credly.com/badges/a289fc64-11a9-430b-8b22-d8f040abab03/public_url" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-teal-600 hover:opacity-80 transition-colors justify-center">
+                                <span>View Credential</span>
+                                <i class="fas fa-external-link-alt icon-size-16"></i>
+                            </a>
+                        </div>
+                    </div>
+        
+                    <div class="falling-text" data-section="certificates" data-delay="200">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-lg">
+                            <i class="fas fa-certificate text-emerald-600 icon-size-32 mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2 text-[#2a3d63]">Google Data Analytics Professional Certificate</h3>
+                            <p class="text-gray-700 mb-4">Issued by Google - August 2023</p>
+                            <a href="https://www.credly.com/badges/1c39aed9-4287-461a-a76b-4a9cb030dcde/public_url" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-emerald-600 hover:opacity-80 transition-colors justify-center">
+                                <span>View Credential</span>
+                                <i class="fas fa-external-link-alt icon-size-16"></i>
+                            </a>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </section>
+
+        <section id="contact" class="min-h-screen flex items-center px-6 py-20 bg-[#fdf5e5]">
+            <div class="max-w-4xl mx-auto text-center w-full">
+                <div class="falling-text" data-section="contact" data-delay="0">
+                    <h2 class="text-4xl lg:text-5xl font-bold mb-4 bg-gradient-to-r from-lime-400 to-teal-500 bg-clip-text text-transparent">
+                        Get In Touch
+                    </h2>
+                    <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+                        Have a question, an opportunity, or just want to say hi? Feel free to reach out!
+                    </p>
+                    <div class="contact-divider"></div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="falling-text" data-section="contact" data-delay="100">
+                        <div class="contact-info-card">
+                            <div class="contact-info-item mb-4">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <p class="label">Email Me</p>
+                                    <a href="mailto:deepikapselvam@email.com" class="value hover:underline">deepikapselvam@email.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-info-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <p class="label">Call Me</p>
+                                    <a href="tel:+1234567890" class="value hover:underline">+1 (234) 567-890</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="falling-text" data-section="contact" data-delay="200">
+                        <div class="contact-info-card">
+                            <div class="contact-info-item mb-4">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <p class="label">Location</p>
+                                    <p class="value">Washington DC, USA</p>
+                                </div>
+                            </div>
+                            <div class="contact-info-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <div>
+                                    <p class="label">Availability</p>
+                                    <p class="value">Flexible</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="falling-text" data-section="contact" data-delay="300">
+                    <h3 class="text-2xl font-bold mb-6 text-[#2a3d63]">Connect with me on Socials</h3>
+                    <div class="social-links-contact">
+                        <a href="https://www.linkedin.com/in/deepika-panneerselvam/" target="_blank" rel="noopener noreferrer" class="social-icon hover:scale-105 transform">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/DeepikaPanneer" target="_blank" rel="noopener noreferrer" class="social-icon hover:scale-105 transform">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        
+                        <a href="mailto:deepikapanneerselvam6@gmail.com" class="social-icon hover:scale-105 transform">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-[#2a3d63] text-white py-8 text-center">
+            <div class="max-w-6xl mx-auto px-6 text-sm">
+                <p>&copy; <span id="current-year"></span> DeepikaPanneerSelvam. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation buttons
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                // Adjust scroll position to account for fixed header
+                const offset = 120; // Approximately the height of your fixed nav bar + some padding
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = element.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
+
+        // Terminal typing effect
+        const terminalTextElement = document.getElementById('terminal-text');
+        const scrollIndicator = document.getElementById('scroll-indicator');
+        const terminalContent = `
+sql> SELECT name FROM developers;
+name = 'Deepika Panneer Selvam
+        `.trim();
+        let i = 0;
+        const speed = 25; // Typing speed in milliseconds
+
+        function typeWriter() {
+            if (i < terminalContent.length) {
+                terminalTextElement.innerHTML = terminalContent.substring(0, i + 1) + '<span class="animate-pulse">|</span>';
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                terminalTextElement.innerHTML = terminalContent; // Remove blinking cursor
+                scrollIndicator.classList.remove('hidden');
+            }
+        }
+
+        // Particle background effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'absolute rounded-full bg-teal-500/30 animate-pulse transition-all duration-1000 ease-out';
+            const size = Math.random() * 5 + 2; // Size between 2px and 7px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `${Math.random() * 100}vh`;
+            particle.style.animationDuration = `${Math.random() * 3 + 2}s`; // 2-5 seconds
+            particle.style.opacity = '0'; // Start invisible for transition
+            
+            document.getElementById('particle-container').appendChild(particle);
+
+            // Animate particle in and then out
+            setTimeout(() => {
+                particle.style.opacity = `${Math.random() * 0.8 + 0.2}`; // Random opacity 20-100%
+                particle.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(${Math.random() * 1.5 + 0.5})`;
+            }, 50);
+
+            setTimeout(() => {
+                particle.style.opacity = '0';
+                particle.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(0.1)`;
+                particle.addEventListener('transitionend', () => particle.remove());
+            }, 3000 + Math.random() * 2000); // Live for 3-5 seconds
+        }
+
+        function startParticleAnimation() {
+            setInterval(createParticle, 200); // Create a new particle every 200ms
+        }
+
+        // Intersection Observer for falling-text animation
+        const fallingTextObserverOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the item is visible
+        };
+
+        const fallingTextObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = parseInt(entry.target.dataset.delay) || 0;
+                    setTimeout(() => {
+                        entry.target.classList.add('show');
+                    }, delay);
+                    observer.unobserve(entry.target); // Stop observing once it's visible
+                }
+            });
+        }, fallingTextObserverOptions);
+
+        document.querySelectorAll('.falling-text').forEach(element => {
+            fallingTextObserver.observe(element);
+        });
+
+        // Intersection Observer for active navigation links
+        const sections = document.querySelectorAll('section');
+        const navButtons = document.querySelectorAll('#navbar-links button');
+
+        const navObserverOptions = {
+            root: null,
+            rootMargin: '-50% 0px -49% 0px', // When the middle of the section is in the middle of the viewport
+            threshold: 0
+        };
+
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentSectionId = entry.target.id;
+                    navButtons.forEach(button => {
+                        button.classList.remove('active-nav-link');
+                        if (button.id === `nav-${currentSectionId}`) {
+                            button.classList.add('active-nav-link');
+                        }
+                    });
+                }
+            });
+        }, navObserverOptions);
+
+        sections.forEach(section => {
+            navObserver.observe(section);
+        });
+
+        // Resume Download
+        function handleDownloadResume() {
+            alert('Download Resume functionality coming soon! Please replace this alert with your actual resume download logic.');
+            // Example: window.open('path/to/your/resume.pdf', '_blank');
+        }
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Start animations when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            typeWriter();
+            startParticleAnimation();
+        });
+    </script>
+</body>
+</html>
