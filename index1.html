@@ -833,60 +833,79 @@
 
     </div>
 
+    // ... (keep all your existing HTML and CSS as is) ...
+
     <script>
         // Terminal animation script
         const terminalOutput = document.getElementById('terminal-text');
-        const cursor = document.getElementById('cursor');
+        const cursor = document.getElementById('cursor'); // Make sure this ID is on the span containing '|'
         const scrollIndicator = document.getElementById('scroll-indicator');
-
+    
         const terminalText = [
-            'Hello, World!',
-            'Welcome to my portfolio.',
-            'I\'m Deepika Panneerselvam, a Data Engineer.',
-            'Exploring data, building pipelines, and creating solutions.',
-            'Type `help` for commands (just kidding, it\'s a demo).',
-            'Scroll down to explore more!'
+            'SQL>SELECT profile FROM data_engineers WHERE name = ‘Deepika Panneerselvam’;'
         ];
-
+    
         let lineIndex = 0;
         let charIndex = 0;
         let typingTimeout;
-        let lineDelay = 1500; // Delay before typing the next line
-
+        let lineDelay = 1000; // Delay before typing the next line (adjusted slightly for flow)
+        let charTypingSpeed = 50; // Speed per character
+    
+        // Store the accumulated text without the cursor
+        let currentDisplayedContent = "";
+    
         function typeCharacter() {
             if (lineIndex < terminalText.length) {
                 const currentLine = terminalText[lineIndex];
+    
                 if (charIndex < currentLine.length) {
-                    terminalOutput.textContent = terminalOutput.textContent.slice(0, -1) + currentLine.charAt(charIndex) + '|';
+                    // Append the next character to our internal content string
+                    currentDisplayedContent += currentLine.charAt(charIndex);
+                    // Update the DOM element with the internal content + cursor
+                    terminalOutput.textContent = currentDisplayedContent + '|';
                     charIndex++;
-                    typingTimeout = setTimeout(typeCharacter, 50); // Typing speed
+                    typingTimeout = setTimeout(typeCharacter, charTypingSpeed);
                 } else {
-                    terminalOutput.textContent = terminalOutput.textContent.slice(0, -1) + currentLine + '\n';
+                    // Line is fully typed. Add a newline character to internal content.
+                    currentDisplayedContent += '\n';
+                    // Update the DOM element (without cursor for a moment, then for next line)
+                    terminalOutput.textContent = currentDisplayedContent; // Display full line + newline
+    
                     lineIndex++;
                     charIndex = 0;
+    
                     if (lineIndex < terminalText.length) {
-                        typingTimeout = setTimeout(typeCharacter, lineDelay); // Delay before next line
+                        // If there are more lines, add a slight pause, then add cursor for the next line start
+                        typingTimeout = setTimeout(() => {
+                            terminalOutput.textContent = currentDisplayedContent + '|'; // Add cursor for next line
+                            typeCharacter(); // Immediately call typeCharacter to start next line's typing
+                        }, lineDelay);
                     } else {
                         // Animation complete
                         cursor.classList.remove('animate-pulse');
-                        cursor.style.display = 'none'; // Hide cursor
+                        cursor.style.display = 'none'; // Hide the cursor
                         scrollIndicator.classList.remove('hidden'); // Show scroll indicator
                     }
                 }
             }
         }
-
+    
         function startTerminalAnimation() {
             if (terminalOutput) {
-                terminalOutput.textContent = ''; // Clear existing content
+                currentDisplayedContent = ""; // Reset internal content
+                terminalOutput.textContent = ''; // Clear DOM content initially
                 cursor.style.display = 'inline'; // Ensure cursor is visible
+                cursor.classList.add('animate-pulse'); // Ensure cursor is pulsing
                 lineIndex = 0;
                 charIndex = 0;
                 clearTimeout(typingTimeout); // Clear any pending timeouts
+    
+                // Start with just the cursor
+                terminalOutput.textContent = '|';
                 typeCharacter();
             }
         }
-
+    
         // Intersection Observer to trigger terminal animation when visible
         const terminalSection = document.getElementById('terminal');
         if (terminalSection) {
@@ -900,8 +919,8 @@
             }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
             observer.observe(terminalSection);
         }
-
-        // Smooth scrolling for navigation
+    
+        // Smooth scrolling for navigation (KEEP THIS AS IS)
         function scrollToSection(id) {
             const element = document.getElementById(id);
             if (element) {
@@ -911,11 +930,11 @@
                 });
             }
         }
-
-        // Active navigation link highlighting (existing logic)
+    
+        // Active navigation link highlighting (KEEP THIS AS IS)
         const sections = document.querySelectorAll('section[id]');
         const navButtons = document.querySelectorAll('#navbar-links button');
-
+    
         window.addEventListener('scroll', () => {
             let current = '';
             sections.forEach(section => {
@@ -925,7 +944,7 @@
                     current = section.getAttribute('id');
                 }
             });
-
+    
             navButtons.forEach(button => {
                 button.classList.remove('active-nav-link');
                 if (button.id === `nav-${current}`) {
@@ -933,17 +952,17 @@
                 }
             });
         });
-
-        // Falling text animation (existing logic)
+    
+        // Falling text animation (KEEP THIS AS IS)
         document.addEventListener('DOMContentLoaded', () => {
             const fallingTexts = document.querySelectorAll('.falling-text');
-
+    
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
                 threshold: 0.1
             };
-
+    
             const fallingTextObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -955,7 +974,7 @@
                     }
                 });
             }, observerOptions);
-
+    
             fallingTexts.forEach(text => {
                 fallingTextObserver.observe(text);
             });
