@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepikaPanneerSelvam - Data Engineer Portfolio</title>
+    <title>Deepika Panneerselvam - Data Engineer Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -325,6 +325,31 @@
             background-color: rgba(42, 61, 99, 0.1); /* bg-[#2a3d63]/10 */
             font-weight: 600; /* font-semibold */
         }
+        .footer-bottom {
+            background-color: #0e1f4d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .footer-brand a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-logo {
+            width: 20px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -358,7 +383,7 @@
                         <span class="text-gray-300 text-sm ml-4">terminal</span>
                     </div>
                     <div class="font-mono text-lime-400 text-xl leading-relaxed whitespace-pre-wrap text-left" id="terminal-text">
-                        <span class="animate-pulse">|</span>
+                        <span class="animate-pulse" id="cursor">|</span>
                     </div>
                 </div>
 
@@ -382,7 +407,7 @@
                 </div>
                 <div class="order-2 lg:order-2 flex flex-col justify-center lg:items-start text-center lg:text-left"> <div class="falling-text" data-section="home" data-delay="200">
                         <div class="flex items-center justify-center lg:justify-start space-x-3 mb-4"> <span class="text-4xl">👋</span>
-                            <h2 class="text-2xl text-[#2a3d63]/90 font-medium">Hey, I'm DeepikaPanneerSelvam</h2>
+                            <h2 class="text-2xl text-[#2a3d63]/90 font-medium">Hey, I'm Deepika Panneerselvam</h2>
                         </div>
                         <h1 class="text-6xl lg:text-7xl font-bold mb-6 leading-tight">
                             <span class="text-[#2a3d63]">Data </span>
@@ -792,149 +817,148 @@
             </div>
         </section>
 
-        <footer class="bg-[#2a3d63] text-white py-8 text-center">
-            <div class="max-w-6xl mx-auto px-6 text-sm">
-                <p>&copy; <span id="current-year"></span> DeepikaPanneerSelvam. All rights reserved.</p>
+        <footer>
+            <div class="footer-bottom">
+              <p>&copy; 2025 Deepika Panneerselvam. All rights reserved.</p>
+              <div class="footer-brand">
+                <img src="porygon.png" alt="Porygon Logo" class="footer-logo" />
+                <a href="https://www.instagram.com/porygonsol/" target="_blank" rel="noopener noreferrer">
+                  Designed by Porygon
+                </a>
+              </div>
             </div>
         </footer>
+          
+          
 
     </div>
 
     <script>
-        // Smooth scrolling for navigation buttons
+        // Terminal animation script
+        const terminalOutput = document.getElementById('terminal-text');
+        const cursor = document.getElementById('cursor');
+        const scrollIndicator = document.getElementById('scroll-indicator');
+
+        const terminalText = [
+            'Hello, World!',
+            'Welcome to my portfolio.',
+            'I\'m Deepika Panneerselvam, a Data Engineer.',
+            'Exploring data, building pipelines, and creating solutions.',
+            'Type `help` for commands (just kidding, it\'s a demo).',
+            'Scroll down to explore more!'
+        ];
+
+        let lineIndex = 0;
+        let charIndex = 0;
+        let typingTimeout;
+        let lineDelay = 1500; // Delay before typing the next line
+
+        function typeCharacter() {
+            if (lineIndex < terminalText.length) {
+                const currentLine = terminalText[lineIndex];
+                if (charIndex < currentLine.length) {
+                    terminalOutput.textContent = terminalOutput.textContent.slice(0, -1) + currentLine.charAt(charIndex) + '|';
+                    charIndex++;
+                    typingTimeout = setTimeout(typeCharacter, 50); // Typing speed
+                } else {
+                    terminalOutput.textContent = terminalOutput.textContent.slice(0, -1) + currentLine + '\n';
+                    lineIndex++;
+                    charIndex = 0;
+                    if (lineIndex < terminalText.length) {
+                        typingTimeout = setTimeout(typeCharacter, lineDelay); // Delay before next line
+                    } else {
+                        // Animation complete
+                        cursor.classList.remove('animate-pulse');
+                        cursor.style.display = 'none'; // Hide cursor
+                        scrollIndicator.classList.remove('hidden'); // Show scroll indicator
+                    }
+                }
+            }
+        }
+
+        function startTerminalAnimation() {
+            if (terminalOutput) {
+                terminalOutput.textContent = ''; // Clear existing content
+                cursor.style.display = 'inline'; // Ensure cursor is visible
+                lineIndex = 0;
+                charIndex = 0;
+                clearTimeout(typingTimeout); // Clear any pending timeouts
+                typeCharacter();
+            }
+        }
+
+        // Intersection Observer to trigger terminal animation when visible
+        const terminalSection = document.getElementById('terminal');
+        if (terminalSection) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startTerminalAnimation();
+                        observer.disconnect(); // Stop observing once animation starts
+                    }
+                });
+            }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
+            observer.observe(terminalSection);
+        }
+
+        // Smooth scrolling for navigation
         function scrollToSection(id) {
             const element = document.getElementById(id);
             if (element) {
-                // Adjust scroll position to account for fixed header
-                const offset = 120; // Approximately the height of your fixed nav bar + some padding
-                const bodyRect = document.body.getBoundingClientRect().top;
-                const elementRect = element.getBoundingClientRect().top;
-                const elementPosition = elementRect - bodyRect;
-                const offsetPosition = elementPosition - offset;
-
                 window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
+                    top: element.offsetTop - 100, // Adjust for fixed nav bar height
+                    behavior: 'smooth'
                 });
             }
         }
 
-        // Terminal typing effect
-        const terminalTextElement = document.getElementById('terminal-text');
-        const scrollIndicator = document.getElementById('scroll-indicator');
-        const terminalContent = `
-sql> SELECT name FROM developers;
-name = 'Deepika Panneer Selvam
-        `.trim();
-        let i = 0;
-        const speed = 25; // Typing speed in milliseconds
-
-        function typeWriter() {
-            if (i < terminalContent.length) {
-                terminalTextElement.innerHTML = terminalContent.substring(0, i + 1) + '<span class="animate-pulse">|</span>';
-                i++;
-                setTimeout(typeWriter, speed);
-            } else {
-                terminalTextElement.innerHTML = terminalContent; // Remove blinking cursor
-                scrollIndicator.classList.remove('hidden');
-            }
-        }
-
-        // Particle background effect
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'absolute rounded-full bg-teal-500/30 animate-pulse transition-all duration-1000 ease-out';
-            const size = Math.random() * 5 + 2; // Size between 2px and 7px
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.top = `${Math.random() * 100}vh`;
-            particle.style.animationDuration = `${Math.random() * 3 + 2}s`; // 2-5 seconds
-            particle.style.opacity = '0'; // Start invisible for transition
-            
-            document.getElementById('particle-container').appendChild(particle);
-
-            // Animate particle in and then out
-            setTimeout(() => {
-                particle.style.opacity = `${Math.random() * 0.8 + 0.2}`; // Random opacity 20-100%
-                particle.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(${Math.random() * 1.5 + 0.5})`;
-            }, 50);
-
-            setTimeout(() => {
-                particle.style.opacity = '0';
-                particle.style.transform = `translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(0.1)`;
-                particle.addEventListener('transitionend', () => particle.remove());
-            }, 3000 + Math.random() * 2000); // Live for 3-5 seconds
-        }
-
-        function startParticleAnimation() {
-            setInterval(createParticle, 200); // Create a new particle every 200ms
-        }
-
-        // Intersection Observer for falling-text animation
-        const fallingTextObserverOptions = {
-            root: null, // viewport
-            rootMargin: '0px',
-            threshold: 0.1 // Trigger when 10% of the item is visible
-        };
-
-        const fallingTextObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const delay = parseInt(entry.target.dataset.delay) || 0;
-                    setTimeout(() => {
-                        entry.target.classList.add('show');
-                    }, delay);
-                    observer.unobserve(entry.target); // Stop observing once it's visible
-                }
-            });
-        }, fallingTextObserverOptions);
-
-        document.querySelectorAll('.falling-text').forEach(element => {
-            fallingTextObserver.observe(element);
-        });
-
-        // Intersection Observer for active navigation links
-        const sections = document.querySelectorAll('section');
+        // Active navigation link highlighting (existing logic)
+        const sections = document.querySelectorAll('section[id]');
         const navButtons = document.querySelectorAll('#navbar-links button');
 
-        const navObserverOptions = {
-            root: null,
-            rootMargin: '-50% 0px -49% 0px', // When the middle of the section is in the middle of the viewport
-            threshold: 0
-        };
-
-        const navObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const currentSectionId = entry.target.id;
-                    navButtons.forEach(button => {
-                        button.classList.remove('active-nav-link');
-                        if (button.id === `nav-${currentSectionId}`) {
-                            button.classList.add('active-nav-link');
-                        }
-                    });
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 150 && scrollY < sectionTop + sectionHeight - 150) {
+                    current = section.getAttribute('id');
                 }
             });
-        }, navObserverOptions);
 
-        sections.forEach(section => {
-            navObserver.observe(section);
+            navButtons.forEach(button => {
+                button.classList.remove('active-nav-link');
+                if (button.id === `nav-${current}`) {
+                    button.classList.add('active-nav-link');
+                }
+            });
         });
 
-        // Resume Download
-        function handleDownloadResume() {
-            alert('Download Resume functionality coming soon! Please replace this alert with your actual resume download logic.');
-            // Example: window.open('path/to/your/resume.pdf', '_blank');
-        }
-
-        // Set current year in footer
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-
-        // Start animations when the DOM is fully loaded
+        // Falling text animation (existing logic)
         document.addEventListener('DOMContentLoaded', () => {
-            typeWriter();
-            startParticleAnimation();
+            const fallingTexts = document.querySelectorAll('.falling-text');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const fallingTextObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.delay) || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('show');
+                        }, delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            fallingTexts.forEach(text => {
+                fallingTextObserver.observe(text);
+            });
         });
     </script>
 </body>
