@@ -1,0 +1,6 @@
+node_modules/
+Archieve/
+.DS_Store
+.vite/
+dist/
+
